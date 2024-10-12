@@ -1,6 +1,18 @@
 #include <stdint.h>
 #include <stdio.h>
 
+
+#define DELAY_COUNT       ( 300000UL )
+
+#define CLCK_CTRL_REG     ( (uint32_t*) 0x40023830 )
+#define GPIOA_MODE_REG    ( (uint32_t*) 0x40020000 )
+#define GPIOB_MODE_REG    ( (uint32_t*) 0x40020400 )
+#define GPIOA_INPUT_REG   ( (uint32_t*) 0x40020010 )
+#define GPIOB_OUTPUT_REG  ( (uint32_t*) 0x40020414 )
+#define GPIOA_PULL_REG    ( (uint32_t*) 0x4002000C )
+
+
+
 int main(void)
 {
     //C(column) - INPUT pinleri : PA5, PA6, PA7, PA8
@@ -11,24 +23,24 @@ int main(void)
 	//adresler
 
 	//GPIO pinleri için clock adresi
-	uint32_t volatile *const clock_ctrl_reg = (uint32_t*) 0x40023830;
+	uint32_t volatile *const clock_ctrl_reg = CLCK_CTRL_REG;
 
 
 	//GPIOA pinleri mod adresi
-	uint32_t volatile *const gpioa_mode_reg = (uint32_t*) 0x40020000;
+	uint32_t volatile *const gpioa_mode_reg = GPIOA_MODE_REG;
 
 	//GPIOB pinleri mod adresi
-	uint32_t volatile *const gpiob_mode_reg = (uint32_t*) 0x40020400;
+	uint32_t volatile *const gpiob_mode_reg = GPIOB_MODE_REG;
 
 
 	//GPIOA pinleri için INPUT adresi
-	uint32_t volatile *const gpioa_input_reg = (uint32_t*) 0x40020010;
+	uint32_t volatile *const gpioa_input_reg = GPIOA_INPUT_REG;
 
 	//GPIOB pinleri için OUTPUT adresi
-	uint32_t volatile *const gpiob_output_reg = (uint32_t*) 0x40020414;
+	uint32_t volatile *const gpiob_output_reg = GPIOB_OUTPUT_REG;
 
 	//GPIOA pinleri için pull-up/pull-down adresi
-	uint32_t volatile *const gpioa_pull_reg = (uint32_t*) 0x4002000C;
+	uint32_t volatile *const gpioa_pull_reg = GPIOA_PULL_REG;
 
 
 	//konfigürasyon
@@ -81,7 +93,7 @@ int main(void)
 			for(int j = 0; j < 4; j++){
 				if(!(*gpioa_input_reg & (1 << (5 + j)))){
 					//tuşa basıldı
-					for(uint32_t delay = 0; delay < 300000; delay++); //150ms delay
+					for(uint32_t delay = 0; delay < DELAY_COUNT; delay++); //150ms delay
 					printf("key is %c\n", keypad[i][j]);
 				}
 			}
