@@ -81,7 +81,7 @@ int main(void)
 			for(int j = 0; j < 4; j++){
 				if(!(*gpioa_input_reg & (1 << (5 + j)))){
 					//tuşa basıldı
-					for(uint32_t delay = 0; delay < 300000; delay++);
+					for(uint32_t delay = 0; delay < 300000; delay++); //150ms delay
 					printf("key is %c\n", keypad[i][j]);
 				}
 			}
